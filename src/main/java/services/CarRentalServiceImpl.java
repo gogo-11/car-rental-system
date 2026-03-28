@@ -4,6 +4,7 @@ import entities.*;
 import interfaces.CarRentalService;
 import services.validator.CarValidator;
 import services.validator.CustomerValidator;
+import services.validator.Validator;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -116,9 +117,11 @@ public class CarRentalServiceImpl implements CarRentalService {
             throw new NoSuchElementException("No cars found!");
         }
 
+        String query = Validator.requireNonBlank(model, "model").toLowerCase();
+
         List<Car> carsByModel = carsById.values()
                 .stream()
-                .filter(x-> x.getModel().equals(model))
+                .filter(x-> x.getModel().toLowerCase().contains(query))
                 .collect(Collectors.toList());
         if(carsByModel.isEmpty()){
             throw new NoSuchElementException("No cars found!");
@@ -147,7 +150,7 @@ public class CarRentalServiceImpl implements CarRentalService {
     @Override
     public Car findCarById(String carId) {
         if(carsById.containsKey(carId.trim())){
-            return carsById.get(carId);
+            return carsById.get(carId.trim());
         } else {
             throw new NoSuchElementException("Car with ID " + carId + " not found!");
         }

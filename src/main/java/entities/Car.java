@@ -16,8 +16,16 @@ public class Car {
         this.make = requireNonBlank(make, "make");
         this.model = requireNonBlank(model, "model");
         this.year = validateYear(year);
-        this.type = Objects.requireNonNull(type, "type cannot be null");
+        this.type = requireNonNull(type, "type cannot be null");
         this.status = CarStatus.AVAILABLE;
+    }
+
+    private CarType requireNonNull(CarType type, String message) {
+        if(type == null){
+            throw new IllegalArgumentException(message);
+        }
+
+        return type;
     }
 
     public String getId() {
@@ -105,4 +113,10 @@ public class Car {
         return value.trim();
     }
 
+    private static int validateYear(int year) {
+        if (year < 1900) {
+            throw new IllegalArgumentException("Year must be a valid car production year.");
+        }
+        return year;
+    }
 }

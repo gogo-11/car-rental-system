@@ -1,6 +1,6 @@
 package app;
 
-public class Demo {
+public class CarRentalApp {
     public static void main(String[] args) {
 
     }

@@ -1,10 +1,11 @@
 package entities;
 
+import interfaces.Rentable;
 import services.validator.Validator;
 
 import java.util.UUID;
 
-public class Car implements Rentable{
+public class Car implements Rentable {
     private final String id;
     private String make;
     private String model;
@@ -13,7 +14,7 @@ public class Car implements Rentable{
     private CarStatus status;
     private String currentRenterName;
 
-    public Car(String id, String make, String model, int year, CarType type) {
+    public Car(String make, String model, int year, CarType type) {
         this.id = UUID.randomUUID().toString();
         this.make = Validator.requireNonBlank(make, "make");
         this.model = Validator.requireNonBlank(model, "model");

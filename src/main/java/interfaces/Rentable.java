@@ -1,4 +1,4 @@
-package entities;
+package interfaces;
 
 public interface Rentable {
     void rent(String renterName);

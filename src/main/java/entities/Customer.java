@@ -14,7 +14,7 @@ public class Customer {
         this.id = UUID.randomUUID().toString();
         this.firstName = Validator.requireNonBlank(firstName, "Customer name cannot be empty");
         this.lastName = Validator.requireNonBlank(lastName, "Customer name cannot be empty");
-        this.email = Validator.requireValidEmail(email, "Please, enter a valid email");
+        this.email = Validator.requireNonBlank(email, "Please, enter a valid email");
     }
 
     public String getId() {

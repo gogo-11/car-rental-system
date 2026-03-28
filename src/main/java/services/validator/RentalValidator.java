@@ -3,6 +3,8 @@ package services.validator;
 import java.time.LocalDate;
 
 public class RentalValidator {
+    private RentalValidator() {}
+
 
     public static String requireExistingId(String id, String fieldName) {
         if(id == null || id.trim().isBlank()) {

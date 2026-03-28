@@ -10,16 +10,16 @@ public class Car implements Rentable {
     private String make;
     private String model;
     private int year;
-    private final CarType type;
+    private CarType type;
     private CarStatus status;
-    private String currentRenterName;
+    private String currentRenterId;
 
     public Car(String make, String model, int year, CarType type) {
         this.id = UUID.randomUUID().toString();
         this.make = Validator.requireNonBlank(make, "make");
         this.model = Validator.requireNonBlank(model, "model");
         this.year = validateYear(year);
-        this.type = Validator.requireNonNull(type, "type cannot be null");
+        this.type = Validator.requireNonNull(type, "Car type");
         this.status = CarStatus.AVAILABLE;
     }
 
@@ -55,12 +55,16 @@ public class Car implements Rentable {
         return type;
     }
 
+    public void changeType(CarType type) {
+        this.type = Validator.requireNonNull(type, "Car type");
+    }
+
     public CarStatus getStatus() {
         return status;
     }
 
-    public String getCurrentRenterName() {
-        return currentRenterName;
+    public String getCurrentRenterId() {
+        return currentRenterId;
     }
 
     public boolean isAvailable() {
@@ -76,14 +80,14 @@ public class Car implements Rentable {
     }
 
     @Override
-    public void rent(String renterName) {
+    public void rent(String renterId) {
         if (isRemoved()) {
             throw new IllegalStateException("Cannot rent a removed car.");
         }
         if (isRented()) {
             throw new IllegalStateException("Car is already rented.");
         }
-        currentRenterName = Validator.requireNonBlank(renterName, "renterName");
+        currentRenterId = Validator.requireNonBlank(renterId, "renterId");
         status = CarStatus.RENTED;
     }
 
@@ -92,7 +96,7 @@ public class Car implements Rentable {
         if (!isRented()) {
             throw new IllegalStateException("Car is not currently rented.");
         }
-        currentRenterName = null;
+        currentRenterId = null;
         status = CarStatus.AVAILABLE;
     }
 

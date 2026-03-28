@@ -11,19 +11,11 @@ public class Validator {
         return value.trim();
     }
 
-    public static CarType requireNonNull(CarType type, String message) {
+    public static CarType requireNonNull(CarType type, String fieldType) {
         if(type == null){
-            throw new IllegalArgumentException(message);
+            throw new IllegalArgumentException(fieldType + " cannot be null");
         }
 
         return type;
     }
-
-    public static String requireValidEmail(String email, String fieldName) {
-        if (email == null || !email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            throw new IllegalArgumentException(fieldName + " must be a valid email.");
-        }
-        return email;
-    }
-
 }

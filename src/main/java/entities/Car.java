@@ -1,8 +1,10 @@
 package entities;
 
-import java.util.Objects;
+import services.validator.Validator;
 
-public class Car {
+import java.util.UUID;
+
+public class Car implements Rentable{
     private final String id;
     private String make;
     private String model;
@@ -12,20 +14,12 @@ public class Car {
     private String currentRenterName;
 
     public Car(String id, String make, String model, int year, CarType type) {
-        this.id = requireNonBlank(id, "id");
-        this.make = requireNonBlank(make, "make");
-        this.model = requireNonBlank(model, "model");
+        this.id = UUID.randomUUID().toString();
+        this.make = Validator.requireNonBlank(make, "make");
+        this.model = Validator.requireNonBlank(model, "model");
         this.year = validateYear(year);
-        this.type = requireNonNull(type, "type cannot be null");
+        this.type = Validator.requireNonNull(type, "type cannot be null");
         this.status = CarStatus.AVAILABLE;
-    }
-
-    private CarType requireNonNull(CarType type, String message) {
-        if(type == null){
-            throw new IllegalArgumentException(message);
-        }
-
-        return type;
     }
 
     public String getId() {
@@ -37,7 +31,7 @@ public class Car {
     }
 
     public void setMake(String make) {
-        this.make = requireNonBlank(make, "make");
+        this.make = Validator.requireNonBlank(make, "make");
     }
 
     public String getModel() {
@@ -45,7 +39,7 @@ public class Car {
     }
 
     public void setModel(String model) {
-        this.model = requireNonBlank(model, "model");
+        this.model = Validator.requireNonBlank(model, "model");
     }
 
     public int getYear() {
@@ -80,17 +74,19 @@ public class Car {
         return status == CarStatus.REMOVED;
     }
 
-    public void rentTo(String renterName) {
+    @Override
+    public void rent(String renterName) {
         if (isRemoved()) {
             throw new IllegalStateException("Cannot rent a removed car.");
         }
         if (isRented()) {
             throw new IllegalStateException("Car is already rented.");
         }
-        currentRenterName = requireNonBlank(renterName, "renterName");
+        currentRenterName = Validator.requireNonBlank(renterName, "renterName");
         status = CarStatus.RENTED;
     }
 
+    @Override
     public void returnFromRental() {
         if (!isRented()) {
             throw new IllegalStateException("Car is not currently rented.");
@@ -104,13 +100,6 @@ public class Car {
             throw new IllegalStateException("Cannot remove a rented car.");
         }
         status = CarStatus.REMOVED;
-    }
-
-    private static String requireNonBlank(String value, String fieldName) {
-        if (value == null || value.trim().isEmpty()) {
-            throw new IllegalArgumentException(fieldName + " cannot be blank.");
-        }
-        return value.trim();
     }
 
     private static int validateYear(int year) {

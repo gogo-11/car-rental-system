@@ -4,8 +4,10 @@ public enum CarType {
     SEDAN("Sedan"),
     SUV("SUV"),
     HATCHBACK("Hatchback"),
-    WAGON("Wagon "),
-    PICKUP_TRUCK("Pickup truck");
+    STATION_WAGON("Wagon "),
+    PICKUP_TRUCK("Pickup truck"),
+    COUPE("Coupe"),
+    CONVERTIBLE("Convertible");
 
     CarType(String typeName) {
         this.typeName = typeName;

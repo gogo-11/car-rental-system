@@ -5,6 +5,10 @@ import services.validator.RentalValidator;
 import java.time.LocalDate;
 import java.util.UUID;
 
+/**
+ * Represents a rental in the rental system
+ * Stores rental details and manages rental-related data and operations
+ */
 public class Rental {
     private final String id;
     private final String carId;

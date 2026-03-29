@@ -5,6 +5,10 @@ import services.validator.Validator;
 
 import java.util.UUID;
 
+/**
+ * Represents a car in the rental system.
+ * Stores car details and manages rental-related operations
+ */
 public class Car implements Rentable {
     private final String id;
     private String make;
@@ -79,6 +83,13 @@ public class Car implements Rentable {
         return status == CarStatus.REMOVED;
     }
 
+    /**
+     * Marks this car as rented by a customer
+     *
+     * @param renterId the id of the customer renting the car
+     * @throws IllegalStateException if the car is removed or already rented
+     * @throws IllegalArgumentException if renterId is null or blank
+     */
     @Override
     public void rent(String renterId) {
         if (isRemoved()) {
@@ -91,6 +102,10 @@ public class Car implements Rentable {
         status = CarStatus.RENTED;
     }
 
+    /**
+     * Returns this car to the car fleet from active rental
+     * @throws IllegalStateException if the car is not currently rented
+     */
     @Override
     public void returnFromRental() {
         if (!isRented()) {
@@ -100,6 +115,12 @@ public class Car implements Rentable {
         status = CarStatus.AVAILABLE;
     }
 
+    /**
+     * Removes this car from the active fleet.
+     * The car cannot be removed while rented.
+     *
+     * @throws IllegalStateException if the car is currently rented
+     */
     public void removeFromFleet() {
         if (isRented()) {
             throw new IllegalStateException("Cannot remove a rented car.");
@@ -107,6 +128,12 @@ public class Car implements Rentable {
         status = CarStatus.REMOVED;
     }
 
+    /**
+     *
+     * @param year the year in which the car was manufactured
+     * @return returns the year if it is a valid one
+     * @throws IllegalArgumentException if the year passed is invalid
+     */
     private static int validateYear(int year) {
         if (year < 1900) {
             throw new IllegalArgumentException("Year must be a valid car production year.");

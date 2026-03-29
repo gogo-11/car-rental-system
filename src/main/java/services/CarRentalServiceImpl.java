@@ -23,6 +23,10 @@ public class CarRentalServiceImpl implements CarRentalService {
         rentalsById = new HashMap<String, Rental>();
     }
 
+    /**
+     *
+     * @throws IllegalStateException when a unique car ID fails to be generated
+     */
     @Override
     public void addCar(String make, String model, int year, CarType type) {
         for (int i = 0; i < MAX_ID_TRIES; i++) {
@@ -35,6 +39,10 @@ public class CarRentalServiceImpl implements CarRentalService {
         throw new IllegalStateException("Car ID collision: Could not allocate unique car ID!");
     }
 
+    /**
+     *
+     * @throws IllegalStateException when a unique car ID fails to be generated
+     */
     @Override
     public void addCustomer(String firstName, String lastName, String email) {
         if(!CustomerValidator.isValidEmail(email)) {
@@ -57,6 +65,11 @@ public class CarRentalServiceImpl implements CarRentalService {
         throw new IllegalStateException("Customer ID collision: Could not allocate unique customer ID!");
     }
 
+    /**
+     *
+     * @throws NoSuchElementException when a car with the specified ID is not found
+     * @throws IllegalArgumentException when the make or the model passed are invalid
+     */
     @Override
     public void editCar(String carId, String make, String model, int year, CarType type) {
         Car car;
@@ -93,6 +106,11 @@ public class CarRentalServiceImpl implements CarRentalService {
         carToRemove.removeFromFleet();
     }
 
+    /**
+     *
+     * @return all cars
+     * @throws NoSuchElementException when cars are not found
+     */
     @Override
     public List<Car> getAllCars() {
         if(carsById.isEmpty()){
@@ -102,6 +120,10 @@ public class CarRentalServiceImpl implements CarRentalService {
         }
     }
 
+    /**
+     *
+     * @throws NoSuchElementException when no available cars are found
+     */
     @Override
     public List<Car> getAvailableCars() {
         if(carsById.isEmpty()){
@@ -111,6 +133,12 @@ public class CarRentalServiceImpl implements CarRentalService {
         return carsById.values().stream().filter(Car::isAvailable).collect(Collectors.toList());
     }
 
+    /**
+     * Returns a list of cars matching the model specified by the user
+     * @param model the car model name
+     * @return list of Car objects matching the model specified
+     * @throws NoSuchElementException when no matching cars are found
+     */
     @Override
     public List<Car> findCarsByModel(String model) {
         if(carsById.isEmpty()){
@@ -130,6 +158,13 @@ public class CarRentalServiceImpl implements CarRentalService {
         return carsByModel;
     }
 
+    /**
+     * Returns a list of cars matching the car status specified by the user
+     *
+     * @param status the status of the car - AVAILABLE, RENTED, REMOVED
+     * @return list of Car objects matching the status specified
+     * @throws NoSuchElementException when no matching cars are found
+     */
     @Override
     public List<Car> findCarsByStatus(CarStatus status) {
         if(carsById.isEmpty()){
@@ -147,6 +182,12 @@ public class CarRentalServiceImpl implements CarRentalService {
         return carsByStatus;
     }
 
+    /**
+     *
+     * @param carId the ID of the car to be searched
+     * @return Car object of the searched car
+     * @throws NoSuchElementException when no car with the specified ID is found
+     */
     @Override
     public Car findCarById(String carId) {
         if(carsById.containsKey(carId.trim())){
@@ -156,6 +197,12 @@ public class CarRentalServiceImpl implements CarRentalService {
         }
     }
 
+    /**
+     *
+     * @throws NoSuchElementException when no car or customer with the specified IDs are found
+     * @throws IllegalStateException when the car with the specified ID is not available for rent
+     * @throws DateTimeException when the return date specified is before the rent date
+     */
     @Override
     public Rental rentCar(String carId, String customerId, LocalDate expectedReturnDate) {
         if(!carsById.containsKey(carId)){
@@ -181,6 +228,11 @@ public class CarRentalServiceImpl implements CarRentalService {
         return newRental;
     }
 
+    /**
+     *
+     * @throws NoSuchElementException when no rentals are found
+     * @throws IllegalArgumentException when the return date specified is null or empty
+     */
     @Override
     public Rental returnCar(String carId, LocalDate actualReturnDate) {
         if(rentalsById.isEmpty()){
@@ -189,8 +241,8 @@ public class CarRentalServiceImpl implements CarRentalService {
         Rental rental = findActiveRentalByCarId(carId);
         Car rentedCar = findCarById(carId);
 
-        if(actualReturnDate == null) {
-            throw new IllegalArgumentException("Return date cannot be null!");
+        if(actualReturnDate == null || actualReturnDate.toString().trim().isEmpty()) {
+            throw new IllegalArgumentException("Return date cannot be null or empty!");
         }
 
         rental.markAsCompleted(actualReturnDate);
@@ -207,6 +259,12 @@ public class CarRentalServiceImpl implements CarRentalService {
         }
     }
 
+    /**
+     *
+     * @param id the ID of the customer you want to get
+     * @return the found by ID customer
+     * @throws NoSuchElementException when the customer is not found
+     */
     private Customer getCustomerById(String id) {
         if(customersById.isEmpty()){
             throw new NoSuchElementException("No customers found!");
@@ -217,6 +275,12 @@ public class CarRentalServiceImpl implements CarRentalService {
         return customersById.get(id);
     }
 
+    /**
+     *
+     * @param carId the ID of the car
+     * @return the active rental associated with the car
+     * @throws NoSuchElementException if no active rental exists for the given car ID
+     */
     private Rental findActiveRentalByCarId(String carId) {
         for (Rental rental : rentalsById.values()) {
             if (rental.getCarId().equals(carId) && rental.isActive()) {

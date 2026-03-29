@@ -4,6 +4,10 @@ import services.validator.Validator;
 
 import java.util.UUID;
 
+/**
+ * Represents a customer in the rental system.
+ * Stores customer details and manages rental-related operations
+ */
 public class Customer {
     private String id;
     private String firstName;

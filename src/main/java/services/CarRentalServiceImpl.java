@@ -16,11 +16,13 @@ public class CarRentalServiceImpl implements CarRentalService {
     private Map<String, Car> carsById;
     private Map<String, Customer> customersById;
     private Map<String, Rental> rentalsById;
+    private Map<String, Customer> customersByEmail;
 
     public CarRentalServiceImpl() {
         carsById = new HashMap<String, Car>();
         customersById = new HashMap<String, Customer>();
         rentalsById = new HashMap<String, Rental>();
+        customersByEmail = new HashMap<String, Customer>();
     }
 
     /**
@@ -41,7 +43,8 @@ public class CarRentalServiceImpl implements CarRentalService {
 
     /**
      *
-     * @throws IllegalStateException when a unique car ID fails to be generated
+     * @throws IllegalStateException if a unique car ID fails to be generated
+     * @throws IllegalStateException if the specified email is already used
      */
     @Override
     public void addCustomer(String firstName, String lastName, String email) {
@@ -54,11 +57,15 @@ public class CarRentalServiceImpl implements CarRentalService {
         if(!CustomerValidator.isValidName(lastName)) {
             throw new IllegalArgumentException("Invalid last name!");
         }
+        if(customersByEmail.containsKey(email)) {
+            throw new IllegalStateException("Customer with this email already exists!");
+        }
 
         for (int i = 0; i < MAX_ID_TRIES; i++) {
             Customer customer = new Customer(firstName, lastName, email);
             if(!customersById.containsKey(customer.getId())){
                 customersById.put(customer.getId(), customer);
+                customersByEmail.put(customer.getEmail(), customer);
                 return;
             }
         }
@@ -273,6 +280,10 @@ public class CarRentalServiceImpl implements CarRentalService {
             throw new NoSuchElementException("Customer with ID " + id + " not found!");
         }
         return customersById.get(id);
+    }
+
+    public String getCustomerEmail(String customerId){
+        return customersById.get(customerId).getEmail();
     }
 
     /**

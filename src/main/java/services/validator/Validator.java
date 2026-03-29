@@ -19,7 +19,6 @@ public class Validator {
         return type;
     }
 
-
     public static String requireValidEmail(String email, String fieldName) {
         String value = requireNonBlank(email, fieldName);
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";

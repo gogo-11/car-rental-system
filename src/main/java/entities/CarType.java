@@ -4,8 +4,8 @@ public enum CarType {
     SEDAN("Sedan"),
     SUV("SUV"),
     HATCHBACK("Hatchback"),
-    STATION_WAGON("Wagon "),
-    PICKUP_TRUCK("Pickup truck"),
+    WAGON("Station wagon"),
+    PICKUP("Pickup truck"),
     COUPE("Coupe"),
     CONVERTIBLE("Convertible");
 

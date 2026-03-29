@@ -135,9 +135,29 @@ public class Car implements Rentable {
      * @throws IllegalArgumentException if the year passed is invalid
      */
     private static int validateYear(int year) {
-        if (year < 1900) {
+        if (year < 1900 || year > 2026) {
             throw new IllegalArgumentException("Year must be a valid car production year.");
         }
         return year;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id +
+                "\tMake: " + make +
+                "\tModel: " + model +
+                "\tYear " + year +
+                "\tBody type" + type.getTypeName() +
+                "\tStatus: " + status;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

@@ -170,11 +170,11 @@ public class Car implements Rentable {
 
     @Override
     public String toString() {
-        return "ID: " + id +
+        return "\tID: " + id +
                 "\tMake: " + make +
                 "\tModel: " + model +
                 "\tYear " + year +
-                "\tBody type" + type.getTypeName() +
+                "\tBody type: " + type.getTypeName() +
                 "\tStatus: " + status;
     }
 }

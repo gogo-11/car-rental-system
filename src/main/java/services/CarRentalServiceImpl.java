@@ -19,10 +19,10 @@ public class CarRentalServiceImpl implements CarRentalService {
     private Map<String, Customer> customersByEmail;
 
     public CarRentalServiceImpl() {
-        carsById = new HashMap<String, Car>();
-        customersById = new HashMap<String, Customer>();
-        rentalsById = new HashMap<String, Rental>();
-        customersByEmail = new HashMap<String, Customer>();
+        carsById = new HashMap<>();
+        customersById = new HashMap<>();
+        rentalsById = new HashMap<>();
+        customersByEmail = new HashMap<>();
     }
 
     /**
@@ -98,12 +98,7 @@ public class CarRentalServiceImpl implements CarRentalService {
             throw new IllegalArgumentException("Invalid model name!");
         }
 
-//        if(CarValidator.isValidType(type)){
-            car.changeType(type);
-//        } else {
-//            throw new IllegalArgumentException("Invalid type!");
-//        }
-
+        car.changeType(type);
         car.setYear(year);
     }
 

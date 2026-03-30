@@ -1,10 +1,7 @@
 package app.handler;
 
 import app.console_input_output.ConsoleIO;
-import entities.Car;
-import entities.CarStatus;
-import entities.CarType;
-import entities.Rental;
+import entities.*;
 import interfaces.CarRentalService;
 import services.CarRentalServiceImpl;
 
@@ -32,6 +29,8 @@ public class CommandHandler {
             handleAddCar();
         } else if(command.equalsIgnoreCase("rent car")){
             handleRentCar();
+        } else if (command.equalsIgnoreCase("add customer")) {
+            handleAddCustomer();
         } else if(command.equalsIgnoreCase("return car")){
             handleReturnCar();
         } else if(command.startsWith("Edit Car")){
@@ -68,6 +67,18 @@ public class CommandHandler {
         }
 
         return true;
+    }
+
+    private void handleAddCustomer() {
+        System.out.print("Enter first name: ");
+        String firstName = scanner.nextLine();
+        System.out.print("Enter last name: ");
+        String lastName = scanner.nextLine();
+        System.out.print("Enter email: ");
+        String email = scanner.nextLine();
+
+        Customer customer = service.addCustomer(firstName, lastName, email);
+        System.out.println("Customer added successfully. Customer ID: " + customer.getId());
     }
 
     private void handleAddCar() {

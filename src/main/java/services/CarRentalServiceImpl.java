@@ -47,7 +47,7 @@ public class CarRentalServiceImpl implements CarRentalService {
      * @throws IllegalStateException if the specified email is already used
      */
     @Override
-    public void addCustomer(String firstName, String lastName, String email) {
+    public Customer addCustomer(String firstName, String lastName, String email) {
         if(!CustomerValidator.isValidEmail(email)) {
             throw new IllegalArgumentException("Invalid email address!");
         }
@@ -57,7 +57,7 @@ public class CarRentalServiceImpl implements CarRentalService {
         if(!CustomerValidator.isValidName(lastName)) {
             throw new IllegalArgumentException("Invalid last name!");
         }
-        if(customersByEmail.containsKey(email)) {
+        if(customersByEmail.containsKey(email.trim().toLowerCase())) {
             throw new IllegalStateException("Customer with this email already exists!");
         }
 
@@ -66,7 +66,7 @@ public class CarRentalServiceImpl implements CarRentalService {
             if(!customersById.containsKey(customer.getId())){
                 customersById.put(customer.getId(), customer);
                 customersByEmail.put(customer.getEmail(), customer);
-                return;
+                return customer;
             }
         }
         throw new IllegalStateException("Customer ID collision: Could not allocate unique customer ID!");

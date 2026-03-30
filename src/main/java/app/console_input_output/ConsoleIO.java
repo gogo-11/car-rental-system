@@ -5,6 +5,7 @@ public class ConsoleIO {
         System.out.println("=========\tHELP MENU\t=========");
         System.out.println("Example valid commands:");
         System.out.println("Add Car");
+        System.out.println("Add Customer");
         System.out.println("Rent Car");
         System.out.println("Return Car");
         System.out.println("Edit Car 14h5j6k");
@@ -21,6 +22,7 @@ public class ConsoleIO {
     public static void printMenu() {
         System.out.println("Commands:");
         System.out.println("Add Car");
+        System.out.println("Add Customer");
         System.out.println("Rent Car");
         System.out.println("Return Car");
         System.out.println("Edit Car <car ID>");

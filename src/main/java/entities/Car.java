@@ -27,6 +27,16 @@ public class Car implements Rentable {
         this.status = CarStatus.AVAILABLE;
     }
 
+    private Car(String id, String make, String model, int year, CarType type, CarStatus status, String currentRenterId) {
+        this.id = Validator.requireNonBlank(id, "id");
+        this.make = Validator.requireNonBlank(make, "make");
+        this.model = Validator.requireNonBlank(model, "model");
+        this.year = validateYear(year);
+        this.type = Validator.requireNonNull(type, "Car type");
+        this.status = status == null ? CarStatus.AVAILABLE : status;
+        this.currentRenterId = validateCurrentRenterId(currentRenterId);
+    }
+
     public String getId() {
         return id;
     }
@@ -141,6 +151,23 @@ public class Car implements Rentable {
         return year;
     }
 
+    /**
+     *
+     * @param customerId ID of the customer
+     * @return null if the parameter is empty or null or the customer ID
+     */
+    private String validateCurrentRenterId(String customerId){
+        if(customerId == null || customerId.trim().isEmpty()){
+            return null;
+        }
+        return customerId.trim();
+    }
+
+    public static Car restoreCar(String id, String make, String model, int year,
+                                 CarType type, CarStatus status, String currentRenterId) {
+        return new Car(id,make,model, year, type, status, currentRenterId);
+    }
+
     @Override
     public String toString() {
         return "ID: " + id +
@@ -149,15 +176,5 @@ public class Car implements Rentable {
                 "\tYear " + year +
                 "\tBody type" + type.getTypeName() +
                 "\tStatus: " + status;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 }

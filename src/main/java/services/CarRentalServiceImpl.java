@@ -267,7 +267,7 @@ public class CarRentalServiceImpl implements CarRentalService {
      * @return the found by ID customer
      * @throws NoSuchElementException when the customer is not found
      */
-    private Customer getCustomerById(String id) {
+    public Customer getCustomerById(String id) {
         if(customersById.isEmpty()){
             throw new NoSuchElementException("No customers found!");
         }
@@ -294,5 +294,14 @@ public class CarRentalServiceImpl implements CarRentalService {
             }
         }
         throw new NoSuchElementException("No active rental found for car ID " + carId);
+    }
+
+    @Override
+    public void loadCars(Map<String, Car> cars) {
+        if (cars == null) {
+            return;
+        }
+
+        this.carsById = new HashMap<>(cars);
     }
 }

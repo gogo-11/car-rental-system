@@ -4,6 +4,7 @@ import entities.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Main service interface for car rental operations
@@ -75,4 +76,6 @@ public interface CarRentalService extends Searchable{
      * @return the completed rental record
      */
     Rental returnCar(String carId, LocalDate actualReturnDate);
+
+    void loadCars(Map<String, Car> cars);
 }

@@ -103,6 +103,7 @@ public class CommandHandler {
         System.out.println("Enter expected return date (format: YYYY-MM-DD");
         String date = scanner.nextLine();
 
+
         Rental rental = service.rentCar(carId, customerId, LocalDate.parse(date));
         System.out.println("Car rented. Rental ID: " + rental.getId());
     }

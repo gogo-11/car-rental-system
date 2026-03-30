@@ -3,15 +3,21 @@ package app.handler;
 import app.console_input_output.ConsoleIO;
 import entities.*;
 import interfaces.CarRentalService;
+import interfaces.CarStorageWriter;
 import services.CarRentalServiceImpl;
+import storage.CarStorageWriterImpl;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class CommandHandler {
     private CarRentalService service;
     private Scanner scanner;
+    private static final String CARS_CSV_PATH = "src/main/resources/database/cars.csv";
+    private final CarStorageWriter carStorageWriter = new CarStorageWriterImpl();
 
     public CommandHandler(CarRentalService service, Scanner scanner) {
         this.service = service;
@@ -189,8 +195,30 @@ public class CommandHandler {
     }
 
     private boolean handleSaveAndExit() {
-        // TODO
-        return false;
+        List<Car> carsList;
+        try {
+            carsList = service.getAllCars();
+        } catch (NoSuchElementException e) {
+            carsList = new ArrayList<>();
+        }
+
+        Map<String, Car> carsMap = new HashMap<>();
+        for(Car car : carsList){
+            carsMap.put(car.getId(), car);
+        }
+
+        try{
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(CARS_CSV_PATH));
+            carStorageWriter.writeCarsFile(bufferedWriter, carsMap);
+            System.out.println("Data saved successfully. Exiting...");
+            wait(5000);
+            bufferedWriter.close();
+            return false;
+        } catch (IOException e) {
+            throw new IllegalStateException("Could not save cars.csv");
+        } catch (InterruptedException e){
+            throw new IllegalStateException("Saving of cars.csv was interrupted");
+        }
     }
 
     private CarType parseCarType(String input) {

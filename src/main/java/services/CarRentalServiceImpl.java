@@ -65,7 +65,7 @@ public class CarRentalServiceImpl implements CarRentalService {
             Customer customer = new Customer(firstName, lastName, email);
             if(!customersById.containsKey(customer.getId())){
                 customersById.put(customer.getId(), customer);
-                customersByEmail.put(customer.getEmail(), customer);
+                customersByEmail.put(customer.getEmail().trim().toLowerCase(), customer);
                 return customer;
             }
         }

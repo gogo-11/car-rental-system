@@ -3,6 +3,7 @@ package entities;
 import interfaces.Rentable;
 import services.validator.Validator;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 /**
@@ -145,7 +146,7 @@ public class Car implements Rentable {
      * @throws IllegalArgumentException if the year passed is invalid
      */
     private static int validateYear(int year) {
-        if (year < 1900 || year > 2026) {
+        if (year < 1900 || year > LocalDate.now().getYear()) {
             throw new IllegalArgumentException("Year must be a valid car production year.");
         }
         return year;

@@ -28,7 +28,7 @@ public interface CarRentalService extends Searchable{
      * @param firstName the first name of the customer
      * @param lastName the last name of the customer
      */
-    void addCustomer(String firstName, String lastName, String email);
+    Customer addCustomer(String firstName, String lastName, String email);
 
     /**
      * Updates car information by ID

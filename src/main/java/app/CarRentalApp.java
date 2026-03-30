@@ -9,15 +9,13 @@ import services.CarRentalServiceImpl;
 import java.util.Scanner;
 
 public class CarRentalApp {
-    private CarRentalService service = new CarRentalServiceImpl();
-    private Scanner scanner = new Scanner(System.in);
-    private ExceptionHandler exceptionHandler = new ExceptionHandler();
-    CommandHandler commandHandler = new CommandHandler(service, scanner);
+    private final CarRentalService service = new CarRentalServiceImpl();
+    private final Scanner scanner = new Scanner(System.in);
+    private final ExceptionHandler exceptionHandler = new ExceptionHandler();
+    private final CommandHandler commandHandler = new CommandHandler(service, scanner);
 
     public static void main(String[] args) {
 
-//        CarFileReader carFileReader = new CarFileReader("cars.csv");
-//        CarFileWriter carFileWriter = new CarFileWriter("cars.csv");
         new CarRentalApp().startApp();
 
     }

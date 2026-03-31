@@ -46,7 +46,7 @@ public class CarRentalApp {
 
         boolean running = true;
         while (true) {
-            System.out.print("Choose an action: ");
+            System.out.print("\nChoose an action: ");
             String input = scanner.nextLine().trim();
             if (input.isEmpty()) {
                 continue;

@@ -58,7 +58,7 @@ public class CarRentalServiceImpl implements CarRentalService {
             throw new IllegalArgumentException("Invalid last name!");
         }
         if(customersByEmail.containsKey(email.trim().toLowerCase())) {
-            throw new IllegalStateException("Customer with this email already exists!");
+            throw new IllegalStateException("Email already taken!");
         }
 
         for (int i = 0; i < MAX_ID_TRIES; i++) {

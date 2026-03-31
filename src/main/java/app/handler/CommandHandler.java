@@ -32,6 +32,8 @@ public class CommandHandler {
 
         if (command.equalsIgnoreCase("save and exit")) {
             return handleSaveAndExit();
+        } else if(command.equalsIgnoreCase("list commands")) {
+          ConsoleIO.printMenu();
         } else if(command.startsWith("get my customer id")) {
             handleReturnId();
         } else if(command.equalsIgnoreCase("help")){
@@ -95,11 +97,11 @@ public class CommandHandler {
     private void handleAddCar() {
         System.out.print("Enter car make: ");
         String make = scanner.nextLine();
-        System.out.println("Enter car model: ");
+        System.out.print("Enter car model: ");
         String model = scanner.nextLine();
         int year = 0;
         while(true){
-            System.out.println("Enter year of manufacturing (between 1900-2026): ");
+            System.out.print("Enter year of manufacturing (between 1900-2026): ");
             try {
                 year = Integer.parseInt(scanner.nextLine());
                 break;
@@ -108,9 +110,9 @@ public class CommandHandler {
             }
         }
 
-        System.out.println("===Available types===\n" +
+        System.out.print("===Available types===\n" +
                 "SEDAN, SUV, HATCHBACK, WAGON, PICKUP, COUPE, CONVERTIBLE" +
-                "\nEnter car type:");
+                "\nEnter car type: ");
         String carType = scanner.nextLine();
 
         service.addCar(make, model,year, parseCarType(carType));
@@ -118,11 +120,11 @@ public class CommandHandler {
     }
 
     private void handleRentCar() {
-        System.out.println("Enter the car ID you want to rent: ");
+        System.out.print("Enter the car ID you want to rent: ");
         String carId = scanner.nextLine();
-        System.out.println("Enter your personal customer ID: ");
+        System.out.print("Enter your personal customer ID: ");
         String customerId = scanner.nextLine();
-        System.out.println("Enter expected return date (format: YYYY-MM-DD");
+        System.out.print("Enter expected return date (format: YYYY-MM-DD): ");
         String date = scanner.nextLine();
 
 
@@ -131,9 +133,9 @@ public class CommandHandler {
     }
 
     private void handleReturnCar() {
-        System.out.println("Enter the car ID: ");
+        System.out.print("Enter the car ID: ");
         String carId = scanner.nextLine();
-        System.out.println("Enter return date (format: YYYY-MM-DD)");
+        System.out.print("Enter return date (format: YYYY-MM-DD): ");
         String date = scanner.nextLine();
 
         Rental rental = service.returnCar(carId, LocalDate.parse(date));
@@ -143,11 +145,11 @@ public class CommandHandler {
     private void handleEditCar(String carId) {
         System.out.print("Enter car make: ");
         String make = scanner.nextLine();
-        System.out.println("Enter car model: ");
+        System.out.print("Enter car model: ");
         String model = scanner.nextLine();
         int year = 0;
         while(true){
-            System.out.println("Enter year of manufacturing (between 1900-" + LocalDate.now().getYear() +"): ");
+            System.out.print("Enter year of manufacturing (between 1900-" + LocalDate.now().getYear() +"): ");
             try {
                 year = Integer.parseInt(scanner.nextLine());
                 break;
@@ -156,36 +158,36 @@ public class CommandHandler {
             }
         }
 
-        System.out.println("===Available types===\n" +
+        System.out.print("===Available types===\n" +
                 "SEDAN, SUV, HATCHBACK, WAGON, PICKUP, COUPE, CONVERTIBLE" +
-                "\nEnter car type:");
+                "\nEnter car type: ");
         String carType = scanner.nextLine();
 
         service.editCar(carId, make, model, year, parseCarType(carType));
-        System.out.println("Car " + make + " " + model + "edited.");
+        System.out.println("Car " + make + " " + model + " edited.");
     }
 
     private void handleListCars() {
         List<Car> carsList = service.getAllCars();
-        System.out.printf("Found %d cars:", carsList.size());
+        System.out.printf("Found %d cars:%n", carsList.size());
         carsList.forEach(System.out::println);
     }
 
     private void handleListAvailableCars() {
         List<Car> carsList = service.getAvailableCars();
-        System.out.printf("Found %d cars:", carsList.size());
+        System.out.printf("Found %d cars:%n", carsList.size());
         carsList.forEach(System.out::println);
     }
 
     private void handleSearchByModel(String model){
         List<Car> carsList = service.findCarsByModel(model);
-        System.out.printf("Found %d cars:", carsList.size());
+        System.out.printf("Found %d cars:%n", carsList.size());
         carsList.forEach(System.out::println);
     }
 
     private void handleSearchByStatus(String status) {
         List<Car> carsList = service.findCarsByStatus(parseCarStatus(status));
-        System.out.printf("Found %d cars:", carsList.size());
+        System.out.printf("Found %d cars:%n", carsList.size());
         carsList.forEach(System.out::println);
     }
 
@@ -200,7 +202,7 @@ public class CommandHandler {
     }
 
     private void handleReturnId() {
-        System.out.println("Enter your email");
+        System.out.print("Enter your email");
         String email = scanner.nextLine().trim();
         Customer customer = service.findCustomerByEmail(email);
         System.out.println(customer.getName() + " your ID is: " + customer.getId());

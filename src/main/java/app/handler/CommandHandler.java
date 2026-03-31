@@ -44,7 +44,7 @@ public class CommandHandler {
             handleAddCustomer();
         } else if(command.equalsIgnoreCase("return car")){
             handleReturnCar();
-        } else if(command.startsWith("edit car")){
+        } else if(command.startsWith("edit car ")){
             String carId = command.substring("Edit Car ".length()).trim();
             if(carId.isBlank())
                 throw  new IllegalArgumentException("Missing car ID");
@@ -53,22 +53,22 @@ public class CommandHandler {
             handleListCars();
         } else if(command.equalsIgnoreCase("list available cars")){
             handleListAvailableCars();
-        } else if(command.startsWith("search by model")){
+        } else if(command.startsWith("search by model ")){
             String model = command.substring("Search by model ".length()).trim();
             if(model.isBlank())
                 throw  new IllegalArgumentException("Missing car model");
             handleSearchByModel(model);
-        } else if(command.startsWith("search by status")){
+        } else if(command.startsWith("search by status ")){
             String status = command.substring("Search by status ".length()).trim();
             if(status.isBlank())
                 throw  new IllegalArgumentException("Missing car status");
             handleSearchByStatus(status);
-        } else if(command.startsWith("search by id")){
+        } else if(command.startsWith("search by id ")){
             String carId = command.substring("Search by ID ".length()).trim();
             if(carId.isBlank())
                 throw  new IllegalArgumentException("Missing car ID");
             handleSearchById(carId);
-        } else if(command.startsWith("remove")) {
+        } else if(command.startsWith("remove ")) {
             String carId = command.substring("Remove ".length()).trim();
             if(carId.isBlank())
                 throw  new IllegalArgumentException("Missing car ID");
@@ -133,7 +133,7 @@ public class CommandHandler {
     private void handleReturnCar() {
         System.out.println("Enter the car ID: ");
         String carId = scanner.nextLine();
-        System.out.println("Enter expected return date (format: YYYY-MM-DD)");
+        System.out.println("Enter return date (format: YYYY-MM-DD)");
         String date = scanner.nextLine();
 
         Rental rental = service.returnCar(carId, LocalDate.parse(date));

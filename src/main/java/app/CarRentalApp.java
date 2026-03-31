@@ -95,7 +95,7 @@ public class CarRentalApp {
             Map<String, Rental> loadedRentals = rentalStorageReader.readFile(rentalsReader);
             service.loadRentals(loadedRentals);
         } catch (IOException e) {
-            throw new IllegalStateException("Failed to load customers from rentals.csv file: " + RENTALS_CSV_PATH, e);
+            throw new IllegalStateException("Failed to load rentals from rentals.csv file: " + RENTALS_CSV_PATH, e);
         }
     }
 }

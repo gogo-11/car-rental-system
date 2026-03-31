@@ -84,6 +84,7 @@ public class Rental implements Identifiable {
     }
 
     public void markAsCompleted(LocalDate actualReturnDate) {
+        setActualReturnDate(actualReturnDate);
         if(!status.equals(RentStatus.COMPLETED)){
             status = RentStatus.COMPLETED;
         } else {

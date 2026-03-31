@@ -1,63 +1,92 @@
 # Car Rental System (Java Console Project)
 
-This is a project for the Java Foundation course.  
-The idea is to make a console app about a car rental management system.
+This is my Java Foundation course project.  
+The target is to build a console app for managing a car rental system
 
-## Done so far
+## What is implemented
 
-I created the main classes and most of the service logic:
+- Core entities: `Car`, `Customer`, `Rental`
+- Service layer: `CarRentalService` + `CarRentalServiceImpl`
+- Validators: `Validator`, `CarValidator`, `CustomerValidator`, `RentalValidator`
+- CSV storage:
+  - readers: `CarStorageReader`, `CustomerStorageReader`, `RentalStorageReader`
+  - writers: `CarStorageWriter`, `CustomerStorageWriter`, `RentalStorageWriter`
+- How the Application Works:
+  - `CarRentalApp` (startup loading and )
+  - `CommandHandler` (command execution)
+  - `ExceptionHandler` (handles runtime/user errors)
 
-- `Car`, `Customer`, `Rental`
-- `CarRentalService` + `CarRentalServiceImpl`
-- enums for car type/status and rental status - `CarType`, `CarStatus`, `RentStatus`
-- validators for input checks - `Validator`, `CarValidator`, `CustomerValidator`, `RentalValidator`
+## Main features
 
-## Implemented functionality
-
-At this stage, these methods are implemented in the service:
-
-- Add car with generated UUID
-- Add customer
+- Add car (UUID is auto-generated)
+- Add customer (UUID is auto-generated, unique email check)
+- Find customer ID by email (`Get my customer id`)
 - Edit car
-- Remove car (`REMOVED` status)
+- Remove car (no actual delete, only `REMOVED` status)
 - List all cars
 - List available cars
-- Find car by ID
-- Search cars by model
-- Search cars by status
+- Search cars by ID, model, and status
 - Rent car
 - Return car
+- Save and exit (writes current data to CSV files)
+
+## Console commands
+
+These are the main commands supported in the menu:
+
+- `Add Car`
+- `Add Customer`
+- `Get my customer id`
+- `Rent Car`
+- `Return Car`
+- `Edit Car <carId>`
+- `List Cars`
+- `List Available Cars`
+- `Search by model <model>`
+- `Search by status <status>`
+- `Search by ID <carId>`
+- `Remove <carId>`
+- `Help`
+- `Save and Exit`
+
+## Data files
+
+The app reads and writes these files:
+
+- `src/main/resources/database/cars.csv`
+- `src/main/resources/database/customers.csv`
+- `src/main/resources/database/rentals.csv`
+
+On launch all the data from these files is loaded into service. 
+
+When `Save and Exit` is executed, current data in the memory is written back to them
 
 ## Project structure
 
-- `entities` -> domain classes (`Car`, `Customer`, `Rental`)
-- `interfaces` -> interfaces (`Rentable`, `Searchable`, `CarRentalService`)
-- `services` -> business logic (`CarRentalServiceImpl`)
-- `services/validator` -> validation classes
-- `app` -> app entry point (`CarRentalApp`)
+- `src/main/java/app` - app startup + command handling + console I/O
+- `src/main/java/entities` - entity classes and enums
+- `src/main/java/services` - business logic implementation
+- `src/main/java/services/validator` - validations
+- `src/main/java/interfaces` - core interfaces (`Identifiable`, `Rentable`, `Searchable`)
+- `src/main/java/interfaces/service` - service interfaces
+- `src/main/java/interfaces/storage` - storage interfaces
+- `src/main/java/storage/reader` - CSV files readers
+- `src/main/java/storage/writer` - CSV files writers
 
-## Build
+## How to run
+
+1. Compile:
 
 ```bash
 mvn clean compile
 ```
 
-## Current state
+2. Run:
 
-The base logic is mostly there, but the app is still not completely finished.
+```bash
+java -cp target/classes app.CarRentalApp
+```
 
-To be done:
+## Current status
 
-- full console command flow in `CarRentalApp`
-- CSV loading/saving logic
-- startup load + save on exit
-
-## Notes
-
-- IDs are generated with UUID
-- when car is removed, it is not deleted, just marked as `REMOVED`
-- rentals are kept for history after return
-
-## Personal note
-
-I focused first on OOP structure and business logic, and next I will finish file handling and console interaction.
+The application properly and all around for cars, customers, and rentals with CSV files management.

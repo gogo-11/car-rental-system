@@ -90,5 +90,21 @@ public interface CarRentalService extends Searchable {
      */
     void loadCustomers(Map<String, Customer> customers);
 
+    /**
+     *
+     * @return a list of all customers
+     */
     List<Customer> listCustomers();
+
+    /**
+     *
+     * @param loadedRentals map of rentals loaded from csv file
+     */
+    void loadRentals(Map<String, Rental> loadedRentals);
+
+    /**
+     *
+     * @return a list of all rentals
+     */
+    List<Rental> listRentals();
 }

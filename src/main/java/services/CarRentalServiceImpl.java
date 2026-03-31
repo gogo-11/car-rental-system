@@ -332,6 +332,19 @@ public class CarRentalServiceImpl implements CarRentalService {
     }
 
     /**
+     * @throws NoSuchElementException if a customer is not found
+     */
+    @Override
+    public Customer findCustomerByEmail(String email) {
+        for (Customer customer : customersByEmail.values()) {
+            if (customer.getEmail().equals(Validator.requireValidEmail(email, "email"))) {
+                return customer;
+            }
+        }
+        throw new NoSuchElementException("No customer found for email: " + email);
+    }
+
+    /**
      * @param rentalMap map of rentals loaded from csv file
      */
     @Override

@@ -98,6 +98,13 @@ public interface CarRentalService extends Searchable {
 
     /**
      *
+     * @param email the email used for search
+     * @return customer the customer found after performing the search
+     */
+    Customer findCustomerByEmail(String email);
+
+    /**
+     *
      * @param loadedRentals map of rentals loaded from csv file
      */
     void loadRentals(Map<String, Rental> loadedRentals);

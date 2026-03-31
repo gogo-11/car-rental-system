@@ -12,6 +12,6 @@ public class CarValidator {
      * @return true if the make matches the pattern and false if it doesn't
      */
     public static boolean isValidName(String make) {
-        return make != null && make.matches("^[A-Za-z]+$");
+        return make != null && !make.trim().isEmpty() && make.matches("^[A-Za-z0-9][A-Za-z0-9\\\\s-]{0,49}$");
     }
 }

@@ -21,7 +21,7 @@ public class CustomerValidator {
      * @return true if the name matches the pattern and false if it doesn't
      */
     public static boolean isValidName(String name) {
-        return name != null && name.matches("^[A-Za-z]+$");
+        return name != null && !name.trim().isEmpty() && name.matches("^[A-Za-z][A-Za-z\\\\s'-]{0,49}$");
     }
 
 }

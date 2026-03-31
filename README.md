@@ -57,7 +57,7 @@ The app reads and writes these files:
 - `src/main/resources/database/customers.csv`
 - `src/main/resources/database/rentals.csv`
 
-On launch all the data from these files is loaded into service. 
+On launch all the data from these files is loaded into service.
 
 When `Save and Exit` is executed, current data in the memory is written back to them
 

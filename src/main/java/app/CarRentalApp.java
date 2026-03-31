@@ -4,12 +4,14 @@ import app.console_input_output.ConsoleIO;
 import app.handler.CommandHandler;
 import entities.Car;
 import entities.Customer;
+import entities.Rental;
 import exceptions.ExceptionHandler;
 import interfaces.service.CarRentalService;
 import interfaces.storage.StorageReader;
 import services.CarRentalServiceImpl;
 import storage.reader.CarStorageReader;
 import storage.reader.CustomerStorageReader;
+import storage.reader.RentalStorageReader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -24,8 +26,10 @@ public class CarRentalApp {
     private final CommandHandler commandHandler = new CommandHandler(service, scanner);
     private final StorageReader<Car> carStorageReader = new CarStorageReader();
     private final StorageReader<Customer> customerStorageReader = new CustomerStorageReader();
+    private final StorageReader<Rental> rentalStorageReader = new RentalStorageReader();
     private static final String CARS_CSV_PATH = "src/main/resources/database/cars.csv";
     private static final String CUSTOMERS_CSV_PATH = "src/main/resources/database/customers.csv";
+    private static final String RENTALS_CSV_PATH = "src/main/resources/database/rentals.csv";
 
     public static void main(String[] args) {
 
@@ -36,6 +40,7 @@ public class CarRentalApp {
     private void startApp() {
         loadCarsFromCsv();
         loadCustomersFromCsv();
+        loadRentalsFromCsv();
         System.out.println("Welcome to Car Rental System\n");
         ConsoleIO.printMenu();
 
@@ -79,6 +84,18 @@ public class CarRentalApp {
             service.loadCars(loadedCars);
         } catch (IOException e) {
             throw new IllegalStateException("Failed to load cars from cars.csv file: " + CARS_CSV_PATH, e);
+        }
+    }
+
+    /**
+     * Populates the rentals map in service
+     */
+    private void loadRentalsFromCsv() {
+        try(BufferedReader rentalsReader = new BufferedReader(new FileReader(RENTALS_CSV_PATH))) {
+            Map<String, Rental> loadedRentals = rentalStorageReader.readFile(rentalsReader);
+            service.loadRentals(loadedRentals);
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to load customers from rentals.csv file: " + RENTALS_CSV_PATH, e);
         }
     }
 }

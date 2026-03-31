@@ -332,10 +332,32 @@ public class CarRentalServiceImpl implements CarRentalService {
     }
 
     /**
+     * @param rentalMap map of rentals loaded from csv file
+     */
+    @Override
+    public void loadRentals(Map<String, Rental> rentalMap) {
+        if (rentalMap == null) {
+            return;
+        }
+
+        this.rentalsById = new HashMap<>(rentalMap);
+    }
+
+    /**
+     * @return a list of all rentals
+     */
+    @Override
+    public List<Rental> listRentals() {
+       return new ArrayList<>(rentalsById.values());
+    }
+
+    /**
      * @return a list of all customers
      */
     @Override
     public List<Customer> listCustomers() {
         return new ArrayList<>(customersById.values());
     }
+
+
 }

@@ -7,6 +7,7 @@ import interfaces.service.CarRentalService;
 import interfaces.storage.StorageWriter;
 import storage.writer.CarStorageWriter;
 import storage.writer.CustomerStorageWriter;
+import storage.writer.RentalStorageWriter;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -20,6 +21,7 @@ public class CommandHandler {
     private Scanner scanner;
     private static final String CARS_CSV_PATH = "src/main/resources/database/cars.csv";
     private static final String CUSTOMERS_CSV_PATH = "src/main/resources/database/customers.csv";
+    private static final String RENTALS_CSV_PATH = "src/main/resources/database/rentals.csv";
 
     public CommandHandler(CarRentalService service, Scanner scanner) {
         this.service = service;
@@ -199,6 +201,7 @@ public class CommandHandler {
     private boolean handleSaveAndExit() {
         saveCars();
         saveCustomers();
+        saveRentals();
 
         System.out.println("Data saved successfully. Exiting...");
         return false;
@@ -227,6 +230,18 @@ public class CommandHandler {
 
         StorageWriter<Car> writer = new CarStorageWriter();
         saveDataToCsv(carsList,CARS_CSV_PATH,writer, "cars.csv");
+    }
+
+    private void saveRentals() {
+        List<Rental> rentalsList;
+        try {
+            rentalsList = service.listRentals();
+        } catch (NoSuchElementException e) {
+            rentalsList = new ArrayList<>();
+        }
+
+        StorageWriter<Rental> writer = new RentalStorageWriter();
+        saveDataToCsv(rentalsList, RENTALS_CSV_PATH, writer, "rentals.csv");
     }
 
     private <T extends Identifiable> void saveDataToCsv(List<T> list, String path,  StorageWriter<T> writer, String fileName){

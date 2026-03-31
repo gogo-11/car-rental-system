@@ -89,4 +89,4 @@ java -cp target/classes app.CarRentalApp
 
 ## Current status
 
-The application properly and all around for cars, customers, and rentals with CSV files management.
+The application works properly and all around for cars, customers, and rentals with CSV files management.

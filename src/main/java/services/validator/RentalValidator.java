@@ -6,7 +6,7 @@ public class RentalValidator {
     private RentalValidator() {}
 
 
-    public static String requireExistingId(String id, String fieldName) {
+    public static String requireNonNullOrBlankId(String id, String fieldName) {
         if(id == null || id.trim().isBlank()) {
             throw new IllegalArgumentException(fieldName + " cannot be null or blank");
         }

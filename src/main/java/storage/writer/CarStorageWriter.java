@@ -1,7 +1,6 @@
 package storage.writer;
 
 import entities.Car;
-import interfaces.storage.StorageWriter;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,7 +11,7 @@ public class CarStorageWriter extends AbstractStorageWriter<Car> {
 
     @Override
     public void writeFile(BufferedWriter writer, Map<String, Car> cars) throws IOException {
-        writeFirstLine(writer,cars);
+        writeFirstLine(writer);
 
         for (Car car : cars.values()){
             String currentRenterId;

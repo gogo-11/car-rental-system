@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class used for reading the customers storage file
+ */
 public class CustomerStorageReader extends AbstractStorageReader<Customer> {
     private static final String[] EXPECTED_COLUMNS = {"Id","FirstName","LastName","Email"};
     private static final int COLUMN_NUMBER = EXPECTED_COLUMNS.length;

@@ -8,11 +8,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Used for reading the cars storage file
+ */
 public class CarStorageReader extends AbstractStorageReader<Car> {
     private static final String COMMA_DELIMITER = ",";
     private static final String[] EXPECTED_COLUMNS = {"Id","Make","Model","Year","Type","Status","CurrentRenterId"};
     private static final int COLUMN_NUMBER = EXPECTED_COLUMNS.length;
 
+    /**
+     * Reads a file and maps the fields to the object fields
+     * @param bufferedReader the reader to read the file
+     * @return map with the ID of each car and the car object itself
+     * @throws IOException if there is an error during reading the file
+     */
     @Override
     public Map<String, Car> readFile(BufferedReader bufferedReader) throws IOException{
 

@@ -1,6 +1,5 @@
 package storage.writer;
 
-import entities.Car;
 import entities.Customer;
 
 import java.io.BufferedWriter;
@@ -26,7 +25,7 @@ public class CustomerStorageWriter extends AbstractStorageWriter<Customer> {
      */
     @Override
     public void writeFile(BufferedWriter writer, Map<String, Customer> customers) throws IOException {
-        writeFirstLine(writer,customers);
+        writeFirstLine(writer);
 
         for (Customer customer : customers.values()){
             String customerRow = String.join(",", customer.getId(), customer.getFirstName(),

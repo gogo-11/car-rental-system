@@ -34,8 +34,8 @@ public class Rental implements Identifiable {
 
     public Rental(String id, String carId, String customerId, LocalDate rentedOn, LocalDate expectedReturnDate, LocalDate actualReturnDate, RentStatus status) {
         this.id = Validator.requireNonBlank(id, "rental ID");
-        this.carId = RentalValidator.requireExistingId(carId, "Car ID");
-        this.customerId = RentalValidator.requireExistingId(customerId, "Customer ID");
+        this.carId = RentalValidator.requireNonNullOrBlankId(carId, "Car ID");
+        this.customerId = RentalValidator.requireNonNullOrBlankId(customerId, "Customer ID");
         this.rentedOn = rentedOn;
         this.expectedReturnDate = RentalValidator.requireValidReturnDate(rentedOn, expectedReturnDate, "Expected return date cannot be before the date rented on");
         this.actualReturnDate = actualReturnDate == null ?

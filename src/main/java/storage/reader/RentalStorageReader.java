@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Used for reading the rentals storage file
+ */
 public class RentalStorageReader extends AbstractStorageReader<Rental> {
     private static final String[] EXPECTED_COLUMNS = {
             "Id","CarId","CustomerId","RentedOn",

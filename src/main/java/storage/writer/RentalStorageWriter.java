@@ -1,6 +1,5 @@
 package storage.writer;
 
-import entities.Customer;
 import entities.RentStatus;
 import entities.Rental;
 
@@ -18,7 +17,7 @@ public class RentalStorageWriter extends AbstractStorageWriter<Rental> {
      */
     @Override
     public void writeFile(BufferedWriter writer, Map<String, Rental> rentals) throws IOException {
-        writeFirstLine(writer,rentals);
+        writeFirstLine(writer);
 
         for (Rental rental : rentals.values()){
             String actualReturn = rental.getActualReturnDate() == null ? "" : rental.getActualReturnDate().toString();

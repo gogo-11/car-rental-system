@@ -1,20 +1,17 @@
 package services.validator;
 
-import entities.CarType;
-
+/**
+ * Helper class with validation methods for Car objects
+ */
 public class CarValidator {
     private CarValidator() {}
 
+    /**
+     * checks if the car make provided matches the regex for valid make
+     * @param make the make name to be checked
+     * @return true if the make matches the pattern and false if it doesn't
+     */
     public static boolean isValidName(String make) {
         return make != null && make.matches("^[A-Za-z]+$");
-    }
-
-    public static boolean isValidType(String typeToCheck) {
-        try {
-            CarType parsedType = CarType.valueOf(typeToCheck.trim().toUpperCase().replace(' ', '_'));
-        } catch (IllegalArgumentException ex) {
-            return false;
-        }
-        return true;
     }
 }

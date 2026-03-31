@@ -166,6 +166,17 @@ public class Car implements Rentable, Identifiable {
         return customerId.trim();
     }
 
+    /**
+     * On initial load restores a car object from the storage
+     * @param id ID of the car
+     * @param make make of the car
+     * @param model model of the car
+     * @param year year of manufacturing of the car
+     * @param type body type of the car
+     * @param status shows if the car is available for rent
+     * @param currentRenterId the ID of the person currently renting the car
+     * @return the restored Car object
+     */
     public static Car restoreCar(String id, String make, String model, int year,
                                  CarType type, CarStatus status, String currentRenterId) {
         return new Car(id,make,model, year, type, status, currentRenterId);

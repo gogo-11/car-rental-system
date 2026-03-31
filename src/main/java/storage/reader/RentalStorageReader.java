@@ -43,7 +43,7 @@ public class RentalStorageReader extends AbstractStorageReader<Rental> {
 
                     Rental rental = Rental.restoreRental(id, carId, customerId, rentedOn, expectedReturnDate, actualReturnDate, status);
                     if(rentalsMap.containsKey(id)){
-                        throw new IllegalStateException("Car with id " + id + " already exists");
+                        throw new IllegalStateException("Rental with id " + id + " already exists");
                     }
                     if (status == RentStatus.COMPLETED && actualReturnDate == null) {
                         throw new IllegalStateException("Completed rental must have actual return date. " + line);

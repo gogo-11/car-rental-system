@@ -253,14 +253,6 @@ public class CarRentalServiceImpl implements CarRentalService {
         return rental;
     }
 
-    private CarType getValidType(String type){
-        try{
-            return CarType.valueOf(type.trim().toUpperCase().replace(' ','_'));
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid type!");
-        }
-    }
-
     /**
      *
      * @param id the ID of the customer you want to get
@@ -336,12 +328,15 @@ public class CarRentalServiceImpl implements CarRentalService {
      */
     @Override
     public Customer findCustomerByEmail(String email) {
-        for (Customer customer : customersByEmail.values()) {
-            if (customer.getEmail().equals(Validator.requireValidEmail(email, "email"))) {
-                return customer;
-            }
+        String validEmail = Validator.requireValidEmail(email,"email").trim().toLowerCase();
+        Customer customerByEmail = customersByEmail.get(validEmail);
+
+        if(customerByEmail == null) {
+            throw new NoSuchElementException("No customer found for email: " + validEmail);
         }
-        throw new NoSuchElementException("No customer found for email: " + email);
+
+        return customerByEmail;
+
     }
 
     /**

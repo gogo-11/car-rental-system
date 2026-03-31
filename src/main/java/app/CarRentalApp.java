@@ -8,8 +8,8 @@ import exceptions.ExceptionHandler;
 import interfaces.service.CarRentalService;
 import interfaces.storage.StorageReader;
 import services.CarRentalServiceImpl;
-import storage.reader.CarStorageReaderImpl;
-import storage.reader.CustomerStorageReaderImpl;
+import storage.reader.CarStorageReader;
+import storage.reader.CustomerStorageReader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -22,8 +22,8 @@ public class CarRentalApp {
     private final Scanner scanner = new Scanner(System.in);
     private final ExceptionHandler exceptionHandler = new ExceptionHandler();
     private final CommandHandler commandHandler = new CommandHandler(service, scanner);
-    private final StorageReader<Car> carStorageReader = new CarStorageReaderImpl();
-    private final StorageReader<Customer> customerStorageReader = new CustomerStorageReaderImpl();
+    private final StorageReader<Car> carStorageReader = new CarStorageReader();
+    private final StorageReader<Customer> customerStorageReader = new CustomerStorageReader();
     private static final String CARS_CSV_PATH = "src/main/resources/database/cars.csv";
     private static final String CUSTOMERS_CSV_PATH = "src/main/resources/database/customers.csv";
 

@@ -1,5 +1,6 @@
 package entities;
 
+import interfaces.Identifiable;
 import interfaces.Rentable;
 import services.validator.Validator;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
  * Represents a car in the rental system.
  * Stores car details and manages rental-related operations
  */
-public class Car implements Rentable {
+public class Car implements Rentable, Identifiable {
     private final String id;
     private String make;
     private String model;
@@ -38,6 +39,7 @@ public class Car implements Rentable {
         this.currentRenterId = validateCurrentRenterId(currentRenterId);
     }
 
+    @Override
     public String getId() {
         return id;
     }

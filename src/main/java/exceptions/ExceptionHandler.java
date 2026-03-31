@@ -11,7 +11,7 @@ public class ExceptionHandler {
         } else if (e instanceof java.time.DateTimeException) {
             System.out.println("Invalid date: " + e.getMessage());
         } else {
-            System.out.println("Unexpected error: " + e.getMessage());
+            System.out.println("Unexpected error: " + e.getMessage() + e);
         }
     }
 }

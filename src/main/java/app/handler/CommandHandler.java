@@ -2,11 +2,13 @@ package app.handler;
 
 import app.console_input_output.ConsoleIO;
 import entities.*;
-import interfaces.CarRentalService;
-import interfaces.CarStorageWriter;
-import services.CarRentalServiceImpl;
-import storage.CarStorageWriterImpl;
+import interfaces.Identifiable;
+import interfaces.service.CarRentalService;
+import interfaces.storage.StorageWriter;
+import storage.writer.CarStorageWriter;
+import storage.writer.CustomerStorageWriter;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,7 +19,7 @@ public class CommandHandler {
     private CarRentalService service;
     private Scanner scanner;
     private static final String CARS_CSV_PATH = "src/main/resources/database/cars.csv";
-    private final CarStorageWriter carStorageWriter = new CarStorageWriterImpl();
+    private static final String CUSTOMERS_CSV_PATH = "src/main/resources/database/customers.csv";
 
     public CommandHandler(CarRentalService service, Scanner scanner) {
         this.service = service;
@@ -195,6 +197,27 @@ public class CommandHandler {
     }
 
     private boolean handleSaveAndExit() {
+        saveCars();
+        saveCustomers();
+
+        System.out.println("Data saved successfully. Exiting...");
+        return false;
+    }
+
+    private void saveCustomers() {
+        List<Customer> customersList;
+
+        try{
+            customersList = service.listCustomers();
+        } catch (NoSuchElementException e) {
+            customersList = new ArrayList<>();
+        }
+
+        StorageWriter<Customer> writer = new CustomerStorageWriter();
+        saveDataToCsv(customersList,CUSTOMERS_CSV_PATH,writer,"customers.csv");
+    }
+
+    private void saveCars() {
         List<Car> carsList;
         try {
             carsList = service.getAllCars();
@@ -202,22 +225,20 @@ public class CommandHandler {
             carsList = new ArrayList<>();
         }
 
-        Map<String, Car> carsMap = new HashMap<>();
-        for(Car car : carsList){
-            carsMap.put(car.getId(), car);
+        StorageWriter<Car> writer = new CarStorageWriter();
+        saveDataToCsv(carsList,CARS_CSV_PATH,writer, "cars.csv");
+    }
+
+    private <T extends Identifiable> void saveDataToCsv(List<T> list, String path,  StorageWriter<T> writer, String fileName){
+        Map<String, T> map = new HashMap<>();
+        for(T element : list){
+            map.put(element.getId(), element);
         }
 
-        try{
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(CARS_CSV_PATH));
-            carStorageWriter.writeCarsFile(bufferedWriter, carsMap);
-            System.out.println("Data saved successfully. Exiting...");
-            wait(5000);
-            bufferedWriter.close();
-            return false;
-        } catch (IOException e) {
-            throw new IllegalStateException("Could not save cars.csv");
-        } catch (InterruptedException e){
-            throw new IllegalStateException("Saving of cars.csv was interrupted");
+        try (BufferedWriter carsBufferedWriter = new BufferedWriter(new FileWriter(path))) {
+            writer.writeFile(carsBufferedWriter, map);
+        } catch (IOException e){
+            throw new IllegalStateException("Could not save "+ fileName + ": " + e.getMessage());
         }
     }
 

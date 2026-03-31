@@ -1,19 +1,18 @@
-package storage;
+package storage.writer;
 
 import entities.Car;
-import interfaces.CarStorageWriter;
+import interfaces.storage.StorageWriter;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Map;
 
-public class CarStorageWriterImpl implements CarStorageWriter {
+public class CarStorageWriter extends AbstractStorageWriter<Car> {
     private static final String COLUMNS = "Id,Make,Model,Year,Type,Status,CurrentRenterId";
 
     @Override
-    public void writeCarsFile(BufferedWriter writer, Map<String, Car> cars) throws IOException {
-        writer.write(COLUMNS);
-        writer.write("\n");
+    public void writeFile(BufferedWriter writer, Map<String, Car> cars) throws IOException {
+        writeFirstLine(writer,cars);
 
         for (Car car : cars.values()){
             String currentRenterId;
@@ -31,5 +30,13 @@ public class CarStorageWriterImpl implements CarStorageWriter {
             writer.newLine();
         }
 
+    }
+
+    /**
+     * @return the columns string
+     */
+    @Override
+    protected String getColumns() {
+        return COLUMNS;
     }
 }

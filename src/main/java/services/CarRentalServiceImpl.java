@@ -1,7 +1,7 @@
 package services;
 
 import entities.*;
-import interfaces.CarRentalService;
+import interfaces.service.CarRentalService;
 import services.validator.CarValidator;
 import services.validator.CustomerValidator;
 import services.validator.Validator;
@@ -296,6 +296,9 @@ public class CarRentalServiceImpl implements CarRentalService {
         throw new NoSuchElementException("No active rental found for car ID " + carId);
     }
 
+    /**
+     * @param cars is a map containing car ID as key and the corresponding Car object as a value
+     */
     @Override
     public void loadCars(Map<String, Car> cars) {
         if (cars == null) {
@@ -303,5 +306,25 @@ public class CarRentalServiceImpl implements CarRentalService {
         }
 
         this.carsById = new HashMap<>(cars);
+    }
+
+    /**
+     * @param customers is a map containing car ID as key and the corresponding Car object as a value
+     */
+    @Override
+    public void loadCustomers(Map<String, Customer> customers) {
+        if (customers == null) {
+            return;
+        }
+
+        this.customersById = new HashMap<>(customers);
+    }
+
+    /**
+     * @return a list of all customers
+     */
+    @Override
+    public List<Customer> listCustomers() {
+        return new ArrayList<>(customersById.values());
     }
 }

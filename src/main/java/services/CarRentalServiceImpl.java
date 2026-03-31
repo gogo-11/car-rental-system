@@ -318,6 +318,17 @@ public class CarRentalServiceImpl implements CarRentalService {
         }
 
         this.customersById = new HashMap<>(customers);
+        this.customersByEmail = new HashMap<>();
+
+        for (Customer customer : customers.values()) {
+            String email = customer.getEmail().trim().toLowerCase();
+
+            if (customersByEmail.containsKey(email)) {
+                throw new IllegalStateException("Duplicate customer email in loaded data: " + customer.getEmail());
+            }
+
+            customersByEmail.put(email, customer);
+        }
     }
 
     /**

@@ -7,19 +7,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomerStorageReaderImpl extends AbstractStorageReader<Customer> {
+public class CustomerStorageReader extends AbstractStorageReader<Customer> {
     private static final String[] EXPECTED_COLUMNS = {"Id","FirstName","LastName","Email"};
     private static final int COLUMN_NUMBER = EXPECTED_COLUMNS.length;
 
     /**
      * @param bufferedReader reader for reading the file
-     * @return map of
-     * @throws IOException
+     * @return map of customers
+     * @throws IOException if an I/O error occurs while reading the file
      */
     @Override
     public Map<String, Customer> readFile(BufferedReader bufferedReader) throws IOException{
 
-        readAndValidateFirstLine(bufferedReader, "customer.csv");
+        readAndValidateFirstLine(bufferedReader, "customers.csv");
 
         Map<String, Customer> customerMap = new HashMap<>();
         String line;

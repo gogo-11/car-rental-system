@@ -2,6 +2,7 @@ package entities;
 
 import interfaces.Identifiable;
 import services.validator.RentalValidator;
+import services.validator.Validator;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -23,12 +24,27 @@ public class Rental implements Identifiable {
                   String customerId,
                   LocalDate expectedReturnDate) {
         this.id = UUID.randomUUID().toString();
-        this.carId = RentalValidator.requireExistingId(carId, "Car ID");
-        this.customerId = RentalValidator.requireExistingId(customerId, "Customer ID");
+        this.carId = Validator.requireNonBlank(carId, "Car ID");
+        this.customerId = Validator.requireNonBlank(customerId, "Customer ID");
         this.rentedOn = LocalDate.now();
         this.expectedReturnDate = RentalValidator.requireValidReturnDate(rentedOn, expectedReturnDate, "Expected return date cannot be before the date rented on");
         this.actualReturnDate = null;
         this.status = RentStatus.ACTIVE;
+    }
+
+    public Rental(String id, String carId, String customerId, LocalDate rentedOn, LocalDate expectedReturnDate, LocalDate actualReturnDate, RentStatus status) {
+        this.id = Validator.requireNonBlank(id, "rental ID");
+        this.carId = RentalValidator.requireExistingId(carId, "Car ID");
+        this.customerId = RentalValidator.requireExistingId(customerId, "Customer ID");
+        this.rentedOn = rentedOn;
+        this.expectedReturnDate = RentalValidator.requireValidReturnDate(rentedOn, expectedReturnDate, "Expected return date cannot be before the date rented on");
+        this.actualReturnDate = actualReturnDate == null ?
+                null : RentalValidator.requireValidReturnDate(rentedOn, actualReturnDate, "Expected return date cannot be before the date rented on");
+        this.status = status;
+    }
+
+    public static Rental restoreRental(String id, String carId, String customerId, LocalDate rentedOn, LocalDate expectedReturnDate, LocalDate actualReturnDate, RentStatus status) {
+        return new Rental(id, carId,customerId, rentedOn, expectedReturnDate, actualReturnDate, status);
     }
 
     @Override

@@ -130,7 +130,7 @@ public class CommandHandler {
     private void handleReturnCar() {
         System.out.println("Enter the car ID: ");
         String carId = scanner.nextLine();
-        System.out.println("Enter expected return date (format: YYYY-MM-DD");
+        System.out.println("Enter expected return date (format: YYYY-MM-DD)");
         String date = scanner.nextLine();
 
         Rental rental = service.returnCar(carId, LocalDate.parse(date));
@@ -144,7 +144,7 @@ public class CommandHandler {
         String model = scanner.nextLine();
         int year = 0;
         while(true){
-            System.out.println("Enter year of manufacturing (between 1900-2026): ");
+            System.out.println("Enter year of manufacturing (between 1900-" + LocalDate.now().getYear() +"): ");
             try {
                 year = Integer.parseInt(scanner.nextLine());
                 break;

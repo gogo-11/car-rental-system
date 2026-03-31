@@ -29,10 +29,12 @@ public class CommandHandler {
     }
 
     public boolean handleCommand(String input) {
-        String command = input.trim();
+        String command = input.trim().toLowerCase();
 
         if (command.equalsIgnoreCase("save and exit")) {
             return handleSaveAndExit();
+        } else if(command.startsWith("get my customer id")) {
+            handleReturnId();
         } else if(command.equalsIgnoreCase("help")){
             ConsoleIO.handleHelp();
         } else if(command.equalsIgnoreCase("add car")){
@@ -43,7 +45,7 @@ public class CommandHandler {
             handleAddCustomer();
         } else if(command.equalsIgnoreCase("return car")){
             handleReturnCar();
-        } else if(command.startsWith("Edit Car")){
+        } else if(command.startsWith("edit car")){
             String carId = command.substring("Edit Car ".length()).trim();
             if(carId.isBlank())
                 throw  new IllegalArgumentException("Missing car ID");
@@ -52,22 +54,22 @@ public class CommandHandler {
             handleListCars();
         } else if(command.equalsIgnoreCase("list available cars")){
             handleListAvailableCars();
-        } else if(command.startsWith("Search by model")){
+        } else if(command.startsWith("search by model")){
             String model = command.substring("Search by model ".length()).trim();
             if(model.isBlank())
                 throw  new IllegalArgumentException("Missing car model");
             handleSearchByModel(model);
-        } else if(command.startsWith("Search by status")){
+        } else if(command.startsWith("search by status")){
             String status = command.substring("Search by status ".length()).trim();
             if(status.isBlank())
                 throw  new IllegalArgumentException("Missing car status");
             handleSearchByStatus(status);
-        } else if(command.startsWith("Search by ID")){
+        } else if(command.startsWith("search by id")){
             String carId = command.substring("Search by ID ".length()).trim();
             if(carId.isBlank())
                 throw  new IllegalArgumentException("Missing car ID");
             handleSearchById(carId);
-        } else if(command.startsWith("Remove")) {
+        } else if(command.startsWith("remove")) {
             String carId = command.substring("Remove ".length()).trim();
             if(carId.isBlank())
                 throw  new IllegalArgumentException("Missing car ID");
@@ -196,6 +198,13 @@ public class CommandHandler {
     private void handleRemoveCar(String carId) {
         service.removeCar(carId);
         System.out.println("Car removed.");
+    }
+
+    private void handleReturnId() {
+        System.out.println("Enter your email");
+        String email = scanner.nextLine().trim();
+        Customer customer = service.findCustomerByEmail(email);
+        System.out.println(customer.getName() + " your ID is: " + customer.getId());
     }
 
     private boolean handleSaveAndExit() {

@@ -1,6 +1,7 @@
-package interfaces;
+package interfaces.service;
 
 import entities.*;
+import interfaces.Searchable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Map;
  * Main service interface for car rental operations
  * Defines car/customer management and rental management
  */
-public interface CarRentalService extends Searchable{
+public interface CarRentalService extends Searchable {
     /**
      * Adds a new car to the system
      *
@@ -77,5 +78,17 @@ public interface CarRentalService extends Searchable{
      */
     Rental returnCar(String carId, LocalDate actualReturnDate);
 
+    /**
+     * Loads the cars from the CSV to the carsById map
+     * @param cars the map to load
+     */
     void loadCars(Map<String, Car> cars);
+
+    /**
+     * Loads the customers from the CSV to the customersById map
+     * @param customers the map to load
+     */
+    void loadCustomers(Map<String, Customer> customers);
+
+    List<Customer> listCustomers();
 }

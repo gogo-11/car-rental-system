@@ -3,12 +3,13 @@ package app;
 import app.console_input_output.ConsoleIO;
 import app.handler.CommandHandler;
 import entities.Car;
+import entities.Customer;
 import exceptions.ExceptionHandler;
-import interfaces.CarRentalService;
-import interfaces.CarStorageReader;
-import interfaces.CarStorageWriter;
+import interfaces.service.CarRentalService;
+import interfaces.storage.StorageReader;
 import services.CarRentalServiceImpl;
-import storage.CarStorageReaderImpl;
+import storage.reader.CarStorageReaderImpl;
+import storage.reader.CustomerStorageReaderImpl;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -21,8 +22,10 @@ public class CarRentalApp {
     private final Scanner scanner = new Scanner(System.in);
     private final ExceptionHandler exceptionHandler = new ExceptionHandler();
     private final CommandHandler commandHandler = new CommandHandler(service, scanner);
-    private final CarStorageReader carStorageReader = new CarStorageReaderImpl();
+    private final StorageReader<Car> carStorageReader = new CarStorageReaderImpl();
+    private final StorageReader<Customer> customerStorageReader = new CustomerStorageReaderImpl();
     private static final String CARS_CSV_PATH = "src/main/resources/database/cars.csv";
+    private static final String CUSTOMERS_CSV_PATH = "src/main/resources/database/customers.csv";
 
     public static void main(String[] args) {
 
@@ -32,6 +35,7 @@ public class CarRentalApp {
 
     private void startApp() {
         loadCarsFromCsv();
+        loadCustomersFromCsv();
         System.out.println("Welcome to Car Rental System\n");
         ConsoleIO.printMenu();
 
@@ -54,9 +58,24 @@ public class CarRentalApp {
         }
     }
 
+    /**
+     * Populates the customer map in service
+     */
+    private void loadCustomersFromCsv() {
+        try(BufferedReader customerReader = new BufferedReader(new FileReader(CUSTOMERS_CSV_PATH))) {
+            Map<String, Customer> loadedCustomers = customerStorageReader.readFile(customerReader);
+            service.loadCustomers(loadedCustomers);
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed to load customers from customers.csv file: " + CUSTOMERS_CSV_PATH, e);
+        }
+    }
+
+    /**
+     * Populates the cars map in service
+     */
     private void loadCarsFromCsv() {
         try (BufferedReader reader = new BufferedReader(new FileReader(CARS_CSV_PATH))) {
-            Map<String, Car> loadedCars = carStorageReader.readCarsFile(reader);
+            Map<String, Car> loadedCars = carStorageReader.readFile(reader);
             service.loadCars(loadedCars);
         } catch (IOException e) {
             throw new IllegalStateException("Failed to load cars from cars.csv file: " + CARS_CSV_PATH, e);

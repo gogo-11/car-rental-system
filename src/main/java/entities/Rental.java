@@ -1,5 +1,6 @@
 package entities;
 
+import interfaces.Identifiable;
 import services.validator.RentalValidator;
 
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ import java.util.UUID;
  * Represents a rental in the rental system
  * Stores rental details and manages rental-related data and operations
  */
-public class Rental {
+public class Rental implements Identifiable {
     private final String id;
     private final String carId;
     private final String customerId;
@@ -30,6 +31,7 @@ public class Rental {
         this.status = RentStatus.ACTIVE;
     }
 
+    @Override
     public String getId() {
         return id;
     }

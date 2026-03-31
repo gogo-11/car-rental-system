@@ -1,22 +1,21 @@
-package storage;
+package storage.reader;
 
 import entities.Car;
 import entities.CarStatus;
 import entities.CarType;
-import interfaces.CarStorageReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
 
-public class CarStorageReaderImpl implements CarStorageReader {
+public class CarStorageReaderImpl extends AbstractStorageReader<Car> {
     private static final String COMMA_DELIMITER = ",";
     private static final String[] EXPECTED_COLUMNS = {"Id","Make","Model","Year","Type","Status","CurrentRenterId"};
 
     @Override
-    public Map<String, Car> readCarsFile(BufferedReader bufferedReader) throws IOException{
+    public Map<String, Car> readFile(BufferedReader bufferedReader) throws IOException{
 
-        readAndValidateFirstLine(bufferedReader);
+        readAndValidateFirstLine(bufferedReader, "cars.csv");
 
         Map<String, Car> cars = new HashMap<>();
         String line;
@@ -47,39 +46,11 @@ public class CarStorageReaderImpl implements CarStorageReader {
         return cars;
     }
 
-    private void readAndValidateFirstLine(BufferedReader bufferedReader) throws IOException {
-//        FileReader fileReader = new FileReader("database/cars.csv");
-//        bufferedReader = new BufferedReader(fileReader);
-        String firstLine = bufferedReader.readLine();
-        if (firstLine == null || firstLine.trim().isEmpty()) {
-            throw new IllegalArgumentException("CSV file is empty or missing first line.");
-        }
-
-        String[] columns = firstLine.split(COMMA_DELIMITER,-1);
-        if(!areColumnsValid(columns)) {
-            throw new IllegalArgumentException("Invalid first line in cars CSV file. Expected: " +
-                    String.join(",", EXPECTED_COLUMNS));
-        }
-
-//        return columns;
-    }
-
-    private boolean areColumnsValid(String[] cols){
-        if(cols ==null || cols.length != EXPECTED_COLUMNS.length){
-            return false;
-        }
-
-        for (int i = 0; i < EXPECTED_COLUMNS.length; i++) {
-            String element;
-            if(cols[i] == null){
-                element = "";
-            } else {
-                element = cols[i].trim();
-            }
-            if(!EXPECTED_COLUMNS[i].equalsIgnoreCase(element)){
-                return false;
-            }
-        }
-        return true;
+    /**
+     * @return the expected columns string array
+     */
+    @Override
+    protected String[] expectedColumns() {
+        return EXPECTED_COLUMNS;
     }
 }

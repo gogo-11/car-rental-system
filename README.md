@@ -12,7 +12,7 @@ The target is to build a console app for managing a car rental system
   - readers: `CarStorageReader`, `CustomerStorageReader`, `RentalStorageReader`
   - writers: `CarStorageWriter`, `CustomerStorageWriter`, `RentalStorageWriter`
 - How the Application Works:
-  - `CarRentalApp` (startup loading and )
+  - `CarRentalApp` (startup loading)
   - `CommandHandler` (command execution)
   - `ExceptionHandler` (handles runtime/user errors)
 
